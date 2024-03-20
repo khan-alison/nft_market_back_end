@@ -1,0 +1,14 @@
+version: "3.5"
+
+services:
+  back-end:
+    container_name: back-end
+    restart: always
+    image: back-end
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:${PORT}"
+    networks:
+      - database_common
