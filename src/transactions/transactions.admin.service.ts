@@ -7,27 +7,23 @@ import {
 
 import { NFT, NFTDocument } from './../schemas/NFT.schema';
 
-import { Injectable, Logger, LogLevel } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import {
   Transaction,
   TransactionDocument,
-  TransactionType,
   TransactionStatus,
+  TransactionType,
 } from 'src/schemas/Transaction.schema';
 
 import mongoose from 'mongoose';
-import { Utils } from 'src/common/utils';
-import {
-  CacheKeyName,
-  ErrorCode,
-} from 'src/common/constants';
-import { CommonService } from 'src/common-service/common.service';
-import * as moment from 'moment';
-import { RecoverTransactionDto } from './dto/admin/recover-transaction.dto';
 import { UserJWT } from 'src/auth/role.enum';
+import { CommonService } from 'src/common-service/common.service';
 import { ApiError } from 'src/common/api';
+import { CacheKeyName } from 'src/common/constants';
+import { Utils } from 'src/common/utils';
+import { RecoverTransactionDto } from './dto/admin/recover-transaction.dto';
 
 import { Owner, OwnerDocument, OwnerStatus } from 'src/schemas/Owner.schema';
 
@@ -45,7 +41,6 @@ export class TransactionsAdminService {
     private nftModel: Model<NFTDocument>,
     @InjectModel(Owner.name)
     private ownerModel: Model<OwnerDocument>,
-
   ) {}
 
   async findOne(id: string) {
@@ -165,7 +160,6 @@ export class TransactionsAdminService {
       throw ApiError();
     }
     // is faulty token redeemed
-  
     // lets start create transaction
     const transactionId = Utils.createObjectId();
     const data = {
