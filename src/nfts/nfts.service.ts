@@ -215,7 +215,7 @@ export class NftsService {
           description: 1,
           ipfsImage: 1,
           ipfsMetadata: 1,
-          price: 1
+          price: 1,
         },
       },
     );
@@ -394,9 +394,17 @@ export class NftsService {
   async putOnSale({ price, hashPutOnSale }, address, id) {
     // Call to contract get orderId base on hash
     const provider = this.commonService.getProvider(process.env.CHAIN_ID);
-    while(true) {
-      const dataPutOneSale = await provider.getTransactionReceipt(hashPutOnSale);
-      if(dataPutOneSale?.logs[1]) {
+    console.log('provider', provider);
+
+    while (true) {
+      console.log('hashPutOnSale', hashPutOnSale);
+
+      const dataPutOneSale = await provider.getTransactionReceipt(
+        hashPutOnSale,
+      );
+      console.log('dataPutOneSale?.logs[1]', dataPutOneSale);
+
+      if (dataPutOneSale?.logs[1]) {
         const orderId = dataPutOneSale.logs[1].topics[1];
         return this.nftModel.updateOne(
           { _id: Utils.toObjectId(id) },
@@ -409,20 +417,20 @@ export class NftsService {
             },
           },
           {
-            new: true
-          }
+            new: true,
+          },
         );
       }
-      
     }
-    
   }
 
   async cancelOnSale({ hashPutOnSale }, address, id) {
     const provider = this.commonService.getProvider(process.env.CHAIN_ID);
-    while(true) {
-      const dataPutOneSale = await provider.getTransactionReceipt(hashPutOnSale);
-      if(dataPutOneSale?.logs[1]) {
+    while (true) {
+      const dataPutOneSale = await provider.getTransactionReceipt(
+        hashPutOnSale,
+      );
+      if (dataPutOneSale?.logs[1]) {
         return this.nftModel.updateOne(
           { _id: Utils.toObjectId(id) },
           {
@@ -433,11 +441,10 @@ export class NftsService {
             },
           },
           {
-            new: true
-          }
+            new: true,
+          },
         );
       }
-      
     }
   }
 }

@@ -66,7 +66,7 @@ export class TransactionsService {
       );
       if (dataPurchase.logs[1]) {
         const orderId = dataPurchase.logs[1].topics[1];
-        let nft = await this.commonService.findNFTById(nftId);
+        const nft = await this.commonService.findNFTById(nftId);
         const transaction = {
           nft: {
             id: nft._id,
@@ -84,14 +84,13 @@ export class TransactionsService {
           price,
           orderId,
         };
-        
+
         nft.status = NFTStatus.OFF_SALE;
         nft.orderId = '';
         await Promise.all([
           nft.save(),
-          this.commonService.updateOwnerAfterBuy({ nft, address })
-        ])
-        
+          this.commonService.updateOwnerAfterBuy({ nft, address }),
+        ]);
 
         return (await this.transactionModel.create(transaction)).save();
       }

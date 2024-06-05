@@ -103,7 +103,11 @@ export class NftsController {
   @Roles(UserRole.USER)
   @ApiBearerAuth()
   @Put('/mint/:id')
-  mintNft(@Request() req, @Body() requestData: MintNftDto, @Param('id') id: string) {
+  mintNft(
+    @Request() req,
+    @Body() requestData: MintNftDto,
+    @Param('id') id: string,
+  ) {
     return this.nftsService.mintNft(id, requestData, req.user.address);
   }
 
@@ -111,7 +115,11 @@ export class NftsController {
   @Roles(UserRole.USER)
   @ApiBearerAuth()
   @Put('/sale-orders/:id')
-  putOnSale(@Request() req, @Body() requestData: PutOnSaleDto, @Param('id') id: string) {
+  putOnSale(
+    @Request() req,
+    @Body() requestData: PutOnSaleDto,
+    @Param('id') id: string,
+  ) {
     return this.nftsService.putOnSale(requestData, req.user.address, id);
   }
 
@@ -119,7 +127,11 @@ export class NftsController {
   @Roles(UserRole.USER)
   @ApiBearerAuth()
   @Put('/cancel-sale-orders/:id')
-  cancelOnSale(@Request() req, @Body() requestData: PutOnSaleDto, @Param('id') id: string) {
+  cancelOnSale(
+    @Request() req,
+    @Body() requestData: PutOnSaleDto,
+    @Param('id') id: string,
+  ) {
     return this.nftsService.cancelOnSale(requestData, req.user.address, id);
   }
 }
